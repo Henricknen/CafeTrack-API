@@ -1,32 +1,27 @@
 <?php
-header("Content-Type: application/json"); // Define o tipo de resposta como JSON
-require_once __DIR__ . '/../config/Database.php'; // Corrigido: Caminho correto para o Database.php
-require_once __DIR__ . '/../models/User.php'; // Corrigido: Caminho correto para o User.php
+header("Content-Type: application/json");
+require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../models/User.php';
 
-// require_once '/.../config/Database.php'; // Importa a configuração do banco de dados
-// require_once '../models/User.php'; // Importa o modelo de usuário
+$database = new Database();
+$db = $database-> getConnection();
 
-$database = new Database(); // Cria uma instância do banco de dados
-$db = $database->getConnection(); // Obtém a conexão com o banco de dados
+$user = new User($db);
+$data = json_decode(file_get_contents("php://input"));
 
-$user = new User($db); // Cria uma instância do modelo User
-$data = json_decode(file_get_contents("php://input")); // Lê os dados da requisição em formato JSON
+if (!empty($data-> name) && !empty($data-> password)) {
+    $user->name = $data-> name;
+    $user->password = $data-> password;
 
-// Verifica se os dados necessários foram enviados
-if (!empty($data->name) && !empty($data->password)) {
-    $user->name = $data->name; // Atribui o nome ao objeto User
-    $user->password = $data->password; // Atribui a senha ao objeto User
-
-    // Tenta autenticar o usuário
-    $user_id = $user->login();
+    $user_id = $user-> login();      // Tenta autenticar o usuário
     if ($user_id) {
-        http_response_code(200); // Código 200: OK
-        echo json_encode(array("message" => "Login successful.", "user_id" => $user_id));
+        http_response_code(200);
+        echo json_encode(array("message" => "Login bem-sucedido.", "user_id" => $user_id));
     } else {
-        http_response_code(401); // Código 401: Unauthorized
-        echo json_encode(array("message" => "Invalid username or password."));
+        http_response_code(401);
+        echo json_encode(array("message" => "Nome de usuário ou senha inválidos."));
     }
 } else {
-    http_response_code(400); // Código 400: Bad Request
-    echo json_encode(array("message" => "Missing username or password."));
+    http_response_code(400);
+    echo json_encode(array("message" => "Nome de usuário ou senha ausente."));
 }
