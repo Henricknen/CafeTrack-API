@@ -1,14 +1,13 @@
 <?php
 class CoffeeLog {
-    private $conn; // Conexão com o banco de dados
-    private $table = 'coffee_logs'; // Nome da tabela de registros de café
+    private $conn; 
+    private $table = 'coffee_logs';
 
     // Propriedades do registro de café
     public $id; // ID do registro
     public $user_id; // ID do usuário que tomou café
     public $timestamp; // Data e hora do registro
 
-    // Construtor: recebe a conexão com o banco de dados
     public function __construct($db) {
         $this->conn = $db;
     }
