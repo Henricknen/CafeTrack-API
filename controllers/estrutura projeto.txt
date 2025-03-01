@@ -1,0 +1,19 @@
+projeto
+│
+├── /config
+│   └── Database.php
+│
+├── /controllers
+│   ├── CoffeeController.php
+│   └── AuthController.php
+│   ├── UserController.php
+│
+├── /middleware
+│   └── AuthMiddleware.php
+│
+├── /models
+│   └── CoffeeLog.php
+│   ├── User.php
+│
+├── .htaccess (para roteamento amigável)
+├── index.php
