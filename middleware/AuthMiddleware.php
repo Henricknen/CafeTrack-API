@@ -6,7 +6,7 @@ class AuthMiddleware {
         if (!isset($headers['Authorization'])) {        // Verifica se o cabeçalho de autorização foi enviado
             http_response_code(401);
             echo json_encode(array("message" => "Não autorizado."));
-            exit;        // Encerra a execução do script
+            exit;
         }
 
         $token = str_replace('Bearer ', '', $headers['Autorizado.']);        // Extrai o token do cabeçalho de autorização

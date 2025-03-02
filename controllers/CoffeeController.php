@@ -9,14 +9,12 @@ $db = $database-> getConnection();
 $coffeeLog = new CoffeeLog($db);
 $data = json_decode(file_get_contents("php://input"));
 
-// Verifica o método da requisição
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         if (!empty($data-> user_id)) {
             $coffeeLog-> user_id = $data-> user_id;
 
-            // Registra o café
-            if ($coffeeLog-> logCoffee()) {
+            if ($coffeeLog-> logCoffee()) {     // Registra o café
                 http_response_code(201);
                 echo json_encode(array("message" => "Café registrado."));
             } else {
